@@ -1,18 +1,82 @@
-## Getting Started
+# Mobile Tariffs Management System
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Система управління тарифами мобільного зв'язку, реалізована на Java з використанням власної імплементації однозв'язного списку.
 
-## Folder Structure
+## Опис проєкту
 
-The workspace contains two folders by default, where:
+Проєкт представляє собою систему для управління різними типами тарифів мобільного зв'язку. Реалізовано такі основні компоненти:
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+- Базовий абстрактний клас `MobileTariff<T>` для представлення тарифів
+- Спеціалізовані класи тарифів:
+  - `BasicTariff<T>`: базовий тариф з обмеженим трафіком
+  - `PremiumTariff<T>`: преміум тариф з необмеженим трафіком
+  - `FamilyTariff<T>`: сімейний тариф з можливістю додавання кількох ліній
+- Власна імплементація колекції `TariffLinkedList<T>`, що базується на однозв'язному списку
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+## Особливості реалізації
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+- Використання узагальнених типів (generics) для гнучкості у роботі з різними типами ідентифікаторів тарифів
+- Повна імплементація інтерфейсу `List`
+- Три типи конструкторів для створення списку тарифів
+- Детальна документація коду з використанням JavaDoc
+- Обробка виключних ситуацій
+- Відповідність стандартам Java Code Conventions
 
-## Dependency Management
+## Встановлення та запуск
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+1. Клонуйте репозиторій:
+```bash
+git clone https://github.com/your-username/mobile-tariffs.git
+```
+
+2. Перейдіть до директорії проєкту:
+```bash
+cd mobile-tariffs
+```
+
+3. Скомпілюйте проєкт:
+```bash
+javac *.java
+```
+
+4. Запустіть демонстраційний приклад:
+```bash
+java TariffManager
+```
+
+## Використання
+
+### Створення нового списку тарифів
+
+```java
+// Порожній список
+TariffLinkedList<String> emptyList = new TariffLinkedList<>();
+
+// Список з одного тарифу
+BasicTariff<String> tariff = new BasicTariff<>("B1", "Базовий", 100.0, 1000, 100, 5000, 0.5);
+TariffLinkedList<String> singleList = new TariffLinkedList<>(tariff);
+
+// Список з колекції
+List<MobileTariff<String>> tariffs = new ArrayList<>();
+tariffs.add(new BasicTariff<>("B2", "Економ", 75.0, 500, 50, 2000, 0.7));
+tariffs.add(new PremiumTariff<>("P1", "Преміум", 500.0, 200, true, 1));
+TariffLinkedList<String> listFromCollection = new TariffLinkedList<>(tariffs);
+```
+
+### Основні операції
+
+```java
+// Додавання нового тарифу
+list.add(new FamilyTariff<>("F1", "Сімейний", 300.0, 150, 4, 50.0));
+
+// Отримання тарифу за індексом
+MobileTariff<String> tariff = list.get(0);
+
+// Видалення тарифу
+list.remove(0);
+
+// Перевірка наявності тарифу
+boolean contains = list.contains(tariff);
+```
+
+**Автор Демич Сергій**
